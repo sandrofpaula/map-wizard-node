@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapas</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Mapas</h1>
+        <p>
+            <a href="/create" class="btn btn-success">Criar mapa</a>
+            <a href="/editApiKey" class="btn btn-primary">Editar Google API Key</a>
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Endereço</th>
+                    <th>Localização</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% mapas.forEach(mapa => { %>
+                <tr>
+                    <td><%= mapa.id %></td>
+                    <td><%= mapa.nome %></td>
+                    <td><%= mapa.endereco %></td>
+                    <td><%= mapa.localizacao %></td>
+                    <td>
+                        <a href="/view/<%= mapa.id %>" class="btn btn-info btn-sm">Ver</a>
+                        <a href="/edit/<%= mapa.id %>" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="/delete/<%= mapa.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este item?');">Excluir</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
