@@ -16,6 +16,13 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th><input type="text" id="searchId" class="form-control" placeholder="Pesquisar ID"></th>
+                    <th><input type="text" id="searchNome" class="form-control" placeholder="Pesquisar Nome"></th>
+                    <th><input type="text" id="searchEndereco" class="form-control" placeholder="Pesquisar Endereço"></th>
+                    <th><input type="text" id="searchLocalizacao" class="form-control" placeholder="Pesquisar Localização"></th>
+                    <th>Ações</th>
+                </tr>
+                <tr>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Endereço</th>
@@ -23,7 +30,7 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="mapasTableBody">
                 <% mapas.forEach(mapa => { %>
                 <tr>
                     <td><%= mapa.id %></td>
@@ -43,5 +50,41 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchId = document.getElementById('searchId');
+            const searchNome = document.getElementById('searchNome');
+            const searchEndereco = document.getElementById('searchEndereco');
+            const searchLocalizacao = document.getElementById('searchLocalizacao');
+            const tableBody = document.getElementById('mapasTableBody');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            function filterTable() {
+                const idValue = searchId.value.toLowerCase();
+                const nomeValue = searchNome.value.toLowerCase();
+                const enderecoValue = searchEndereco.value.toLowerCase();
+                const localizacaoValue = searchLocalizacao.value.toLowerCase();
+
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    const id = cells[0].textContent.toLowerCase();
+                    const nome = cells[1].textContent.toLowerCase();
+                    const endereco = cells[2].textContent.toLowerCase();
+                    const localizacao = cells[3].textContent.toLowerCase();
+
+                    rows[i].style.display = 
+                        (id.includes(idValue) && 
+                        nome.includes(nomeValue) && 
+                        endereco.includes(enderecoValue) && 
+                        localizacao.includes(localizacaoValue)) ? '' : 'none';
+                }
+            }
+
+            searchId.addEventListener('input', filterTable);
+            searchNome.addEventListener('input', filterTable);
+            searchEndereco.addEventListener('input', filterTable);
+            searchLocalizacao.addEventListener('input', filterTable);
+        });
+    </script>
 </body>
 </html>
