@@ -12,6 +12,12 @@
       "nome": "Arena da Amazônia",
       "endereco": "Arena da Amazônia - Avenida Constantino Nery - Flores, Manaus - AM, Brasil",
       "localizacao": "-3.0832457,-60.0281392"
+    },
+    {
+      "id": 3,
+      "nome": "R. Ayrton Senna, 452 - Cidade Nova, Manaus - AM, 69076-662, Brasil",
+      "endereco": "Av. Torquato Tapajós, 12 - Flores, Manaus - AM, 69058-830, Brasil",
+      "localizacao": "-3.0286837185807074,-60.01788407680969"
     }
   ]
 }

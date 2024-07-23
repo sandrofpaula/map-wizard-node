@@ -9,6 +9,12 @@
 </head>
 <body>
     <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Criar Mapa</li>
+            </ol>
+        </nav>
         <h1 class="mb-4">Criar Mapa</h1>
         <form action="/create" method="post">
             <div class="form-group">
@@ -33,13 +39,15 @@
                     zoom: 12
                 });
 
+                var geocoder = new google.maps.Geocoder();
                 var input = document.getElementById('endereco');
                 var autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.bindTo('bounds', map);
 
                 var marker = new google.maps.Marker({
                     map: map,
-                    anchorPoint: new google.maps.Point(0, -29)
+                    anchorPoint: new google.maps.Point(0, -29),
+                    draggable: true
                 });
 
                 autocomplete.addListener('place_changed', function() {
@@ -61,6 +69,33 @@
 
                     document.getElementById('localizacao').value = place.geometry.location.lat() + ',' + place.geometry.location.lng();
                 });
+
+                google.maps.event.addListener(marker, 'dragend', function(event) {
+                    var latLng = event.latLng;
+                    document.getElementById('localizacao').value = latLng.lat() + ',' + latLng.lng();
+                    geocodeLatLng(geocoder, map, latLng);
+                });
+
+                map.addListener('click', function(event) {
+                    marker.setPosition(event.latLng);
+                    var latLng = event.latLng;
+                    document.getElementById('localizacao').value = latLng.lat() + ',' + latLng.lng();
+                    geocodeLatLng(geocoder, map, latLng);
+                });
+
+                function geocodeLatLng(geocoder, map, latLng) {
+                    geocoder.geocode({ 'location': latLng }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                document.getElementById('endereco').value = results[0].formatted_address;
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                }
             }
         </script>
     </div>

@@ -9,6 +9,13 @@
 </head>
 <body>
     <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/edit/<%= mapa.id %>"><%= mapa.nome %></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Criar Mapa</li>
+            </ol>
+        </nav>
         <h1 class="mb-4">Mapa: <%= mapa.nome %></h1>
         <div id="map" style="height: 500px;"></div>
         <script>

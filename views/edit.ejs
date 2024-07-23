@@ -9,6 +9,13 @@
 </head>
 <body>
     <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/view/<%= mapa.id %>"><%= mapa.nome %></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar Mapa</li>
+            </ol>
+        </nav>
         <h1 class="mb-4">Editar Mapa</h1>
         <form action="/edit/<%= mapa.id %>" method="post">
             <div class="form-group">
@@ -37,9 +44,11 @@
                     zoom: 15
                 });
 
+                var geocoder = new google.maps.Geocoder();
                 var marker = new google.maps.Marker({
                     map: map,
-                    position: location
+                    position: location,
+                    draggable: true
                 });
 
                 var input = document.getElementById('endereco');
@@ -65,6 +74,33 @@
 
                     document.getElementById('localizacao').value = place.geometry.location.lat() + ',' + place.geometry.location.lng();
                 });
+
+                google.maps.event.addListener(marker, 'dragend', function(event) {
+                    var latLng = event.latLng;
+                    document.getElementById('localizacao').value = latLng.lat() + ',' + latLng.lng();
+                    geocodeLatLng(geocoder, map, latLng);
+                });
+
+                map.addListener('click', function(event) {
+                    marker.setPosition(event.latLng);
+                    var latLng = event.latLng;
+                    document.getElementById('localizacao').value = latLng.lat() + ',' + latLng.lng();
+                    geocodeLatLng(geocoder, map, latLng);
+                });
+
+                function geocodeLatLng(geocoder, map, latLng) {
+                    geocoder.geocode({ 'location': latLng }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                document.getElementById('endereco').value = results[0].formatted_address;
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                }
             }
         </script>
     </div>
