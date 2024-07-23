@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapas</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Mapas</h1>
+        <% if (!google_api_key || google_api_key === "YOUR_GOOGLE_API_KEY") { %>
+            <div class="alert alert-warning" role="alert">
+                Por favor, insira a Google API Key para usar os recursos do mapa.
+            </div>
+        <% } %>
         <p>
             <a href="/create" class="btn btn-success">Criar mapa</a>
             <a href="/editApiKey" class="btn btn-primary">Editar Google API Key</a>
@@ -27,7 +33,7 @@
                     <th>Nome</th>
                     <th>Endereço</th>
                     <th>Localização</th>
-                    <th>Ações</th>
+                    <th style="width: 140px;">Ações</th>
                 </tr>
             </thead>
             <tbody id="mapasTableBody">
@@ -38,9 +44,12 @@
                     <td><%= mapa.endereco %></td>
                     <td><%= mapa.localizacao %></td>
                     <td>
-                        <a href="/view/<%= mapa.id %>" class="btn btn-info btn-sm">Ver</a>
-                        <a href="/edit/<%= mapa.id %>" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="/delete/<%= mapa.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este item?');">Excluir</a>
+                        <a href="/view/<%= mapa.id %>" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i></a>
+                        <a href="/edit/<%= mapa.id %>" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i></a>
+                        <a href="/delete/<%= mapa.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este item?');">
+                            <i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
                 <% }) %>
@@ -59,18 +68,22 @@
             const tableBody = document.getElementById('mapasTableBody');
             const rows = tableBody.getElementsByTagName('tr');
 
+            function normalize(text) {
+                return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+            }
+
             function filterTable() {
-                const idValue = searchId.value.toLowerCase();
-                const nomeValue = searchNome.value.toLowerCase();
-                const enderecoValue = searchEndereco.value.toLowerCase();
-                const localizacaoValue = searchLocalizacao.value.toLowerCase();
+                const idValue = normalize(searchId.value);
+                const nomeValue = normalize(searchNome.value);
+                const enderecoValue = normalize(searchEndereco.value);
+                const localizacaoValue = normalize(searchLocalizacao.value);
 
                 for (let i = 0; i < rows.length; i++) {
                     const cells = rows[i].getElementsByTagName('td');
-                    const id = cells[0].textContent.toLowerCase();
-                    const nome = cells[1].textContent.toLowerCase();
-                    const endereco = cells[2].textContent.toLowerCase();
-                    const localizacao = cells[3].textContent.toLowerCase();
+                    const id = normalize(cells[0].textContent);
+                    const nome = normalize(cells[1].textContent);
+                    const endereco = normalize(cells[2].textContent);
+                    const localizacao = normalize(cells[3].textContent);
 
                     rows[i].style.display = 
                         (id.includes(idValue) && 

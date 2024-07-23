@@ -5,50 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver mapa</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
-    <script>
-        function initMap() {
-            var location = { lat: parseFloat('<%= mapa.localizacao.split(",")[0] %>'), lng: parseFloat('<%= mapa.localizacao.split(",")[1] %>') };
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: location
-            });
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-        }
-    </script>
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= google_api_key %>&callback=initMap"></script>
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Ver mapa</h1>
-        <table class="table table-bordered">
-            <tr>
-                <th>ID</th>
-                <td><%= mapa.id %></td>
-            </tr>
-            <tr>
-                <th>Nome</th>
-                <td><%= mapa.nome %></td>
-            </tr>
-            <tr>
-                <th>Endereço</th>
-                <td><%= mapa.endereco %></td>
-            </tr>
-            <tr>
-                <th>Localização</th>
-                <td><%= mapa.localizacao %></td>
-            </tr>
-        </table>
-        <div id="map"></div>
-        <a href="/" class="btn btn-secondary mt-3">Voltar</a>
+        <h1 class="mb-4">Mapa: <%= mapa.nome %></h1>
+        <div id="map" style="height: 500px;"></div>
+        <script>
+            function initMap() {
+                var location = { lat: parseFloat('<%= mapa.localizacao.split(",")[0] %>'), lng: parseFloat('<%= mapa.localizacao.split(",")[1] %>') };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: location
+                });
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+        </script>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

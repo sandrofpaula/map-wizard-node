@@ -9,17 +9,16 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Editar Google API Key</h1>
-        <form method="POST">
+        <form action="/editApiKey" method="post">
             <div class="form-group">
-                <label for="google_api_key">Google API Key</label>
-                <input type="text" class="form-control" id="google_api_key" name="google_api_key" value="<%= apiKey %>" required>
+                <label for="googleApiKey">Google API Key</label>
+                <input type="text" class="form-control" id="googleApiKey" name="google_api_key" value="<%= apiKey %>" required>
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a href="/" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.githubusercontent.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
